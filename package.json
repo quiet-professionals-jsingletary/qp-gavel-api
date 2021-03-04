@@ -1,0 +1,39 @@
+{
+  "name": "qp-gavel-api",
+  "version": "1.0.0",
+  "author": "James Singletary IV",
+  "description": "ExpressJS RESTful API Server built on top of RESTful API serving up data for GAVEL",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "ncp": "^2.0.0",
+    "node-fetch": "^2.6.1",
+    "node-rsa": "^1.1.1",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {
+    "sloc": "^0.2.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quiet-Professionals-LLC/qp-gavel-api.git"
+  },
+  "keywords": [
+    "GAVEL",
+    "Mobile Phone Data",
+    "QP",
+    "Quiet Professionals LLC",
+    "Venntel"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Quiet-Professionals-LLC/qp-ampd-app/issues"
+  }
+}
