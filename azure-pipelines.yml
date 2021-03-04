@@ -12,17 +12,17 @@ variables:
   azureSubscription: 'f4840aff-d81d-4152-be58-f7ac965583ce'
 
   # Web app name
-  webAppName: 'qp-gavel-mvp'
+  webAppName: 'qp-gavel-svr-mvp'
 
   # Environment name
-  environmentName: 'qp-gavel-mvp'
+  environmentName: 'qp-gavel-svr-mvp'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: Build Stage
   jobs:
   - job: Build
     displayName: Build
@@ -41,9 +41,18 @@ stages:
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
+    # - task: AzureRmWebAppDeployment@4
+    #   inputs:
+    #     ConnectionType: 'AzureRM'
+    #     # azureSubscription: 'Microsoft Azure Sponsorship (2fd0e327-dba8-4b46-92a8-c0f337820a1f)'
+    #     appType: 'webAppLinux'
+    #     # WebAppName: 'qp-gavel-svr-mvp'
+    #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    #     RuntimeStack: 'NODE|12.19.0'
+    #     StartupCommand: 'npm run start'
 
 - stage: Deploy
-  displayName: Deploy stage
+  displayName: Deploy Stage
   dependsOn: Build
   condition: succeeded()
   jobs:
@@ -63,12 +72,5 @@ stages:
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|12.19'
+              RuntimeStack: 'NODE|12.19.0'
               StartupCommand: 'npm run start'
-              ScriptType: 'Inline Script'
-              InlineScript: |
-              
-                npm run client:prep
-
-              # npm install
-              # npm run build --if-present
