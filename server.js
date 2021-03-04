@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 const api = require('./routes/routes');
 
 // Add API version to URI
-app.use('/api/v1', api);
+app.use(process.env.REACT_APP_API_VERSION, api);
 
 /*/
  *  ┌────────────────────────┐
