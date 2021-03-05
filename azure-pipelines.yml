@@ -41,15 +41,6 @@ stages:
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
-    # - task: AzureRmWebAppDeployment@4
-    #   inputs:
-    #     ConnectionType: 'AzureRM'
-    #     # azureSubscription: 'Microsoft Azure Sponsorship (2fd0e327-dba8-4b46-92a8-c0f337820a1f)'
-    #     appType: 'webAppLinux'
-    #     # WebAppName: 'qp-gavel-svr-mvp'
-    #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    #     RuntimeStack: 'NODE|12.19.0'
-    #     StartupCommand: 'npm run start'
 
 - stage: Deploy
   displayName: Deploy Stage
@@ -66,11 +57,11 @@ stages:
         deploy:
           steps:
           - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: qp-gavel-mvp'
+            displayName: 'Azure App Service Deploy: qp-gavel-svr-mvp'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'NODE|12.19.0'
-              StartupCommand: 'npm run start'
+              StartupCommand: 'run start'

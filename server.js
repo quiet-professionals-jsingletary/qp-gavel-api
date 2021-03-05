@@ -22,7 +22,6 @@ const path = require('path');
 require('dotenv').config();
 
 // TODO: Determine if `react-helmet` would be useful
-
 /*/  
  *  ┌────────────────────────┐
  *  │ |> Init Express Server │
@@ -136,5 +135,5 @@ function error(status, msg) {
 /*/
 // console.log('module: ', module);
 app.listen(port, () => {
-  console.dir(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
+  console.log(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
 });
