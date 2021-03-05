@@ -53,11 +53,7 @@ const corsOptions = {
   "optionsSuccessStatus": 200,
 }
 app.use(cors(corsOptions));
-<<<<<<< HEAD
 console.log('CORS Status: ', cors);
-=======
-// console.log('CORS Status: ', cors);
->>>>>>> 2f00642fa99f8aedcb820a812cec01af0b8d8145
 
 /*/
  *  ┌─────────────────────────────┐
