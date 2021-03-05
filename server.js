@@ -48,11 +48,11 @@ app.use(process.env.REACT_APP_API_VERSION, api);
  *  └────────────────────────┘
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
-// const corsOptions = {
-//   "origin": "http://localhost:3000",
-//   "optionsSuccessStatus": 200,
-// }
-// app.use(cors(corsOptions));
+const corsOptions = {
+  "origin": "http://localhost:3000",
+  "optionsSuccessStatus": 200,
+}
+app.use(cors(corsOptions));
 // console.log('CORS Status: ', cors);
 
 /*/
@@ -68,10 +68,10 @@ app.use((req, res, next) => {
 
 // Middleware communicates to Express which files to serve up
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-  // app.use(express.static(path.join(__dirname, 'client/build')));
-  // app.get('/', function (req, res) {
-  //   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  // });
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
   console.log('Node Environment: ', process.env.NODE_ENV);
 } 
 
