@@ -18,9 +18,6 @@
   "devDependencies": {
     "sloc": "^0.2.1"
   },
-  "scripts": {
-    "start": "node server"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Quiet-Professionals-LLC/qp-gavel-api.git"
