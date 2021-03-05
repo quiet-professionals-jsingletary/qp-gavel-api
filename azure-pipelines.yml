@@ -12,10 +12,10 @@ variables:
   azureSubscription: 'f4840aff-d81d-4152-be58-f7ac965583ce'
 
   # Web app name
-  webAppName: 'qp-gavel-mvp'
+  webAppName: 'qp-gavel-svr-mvp'
 
   # Environment name
-  environmentName: 'qp-gavel-mvp'
+  environmentName: 'qp-gavel-svr-mvp'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -57,18 +57,11 @@ stages:
         deploy:
           steps:
           - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: qp-gavel-mvp'
+            displayName: 'Azure App Service Deploy: qp-gavel-svr-mvp'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|12.19'
-              StartupCommand: 'npm run start'
-              ScriptType: 'Inline Script'
-              InlineScript: |
-              
-                npm run client:prep
-
-              # npm install
-              # npm run build --if-present
+              RuntimeStack: 'NODE|12.19.0'
+              StartupCommand: 'run start'

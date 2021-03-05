@@ -135,5 +135,5 @@ function error(status, msg) {
 /*/
 // console.log('module: ', module);
 app.listen(port, () => {
-  console.dir(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
+  console.log(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
 });
