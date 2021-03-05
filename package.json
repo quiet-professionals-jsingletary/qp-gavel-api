@@ -19,7 +19,7 @@
     "sloc": "^0.2.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server"
   },
   "repository": {
     "type": "git",
