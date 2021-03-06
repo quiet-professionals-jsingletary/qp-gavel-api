@@ -80,7 +80,7 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
   //   }]
   // };
 
-  console.group('Payload:>');
+  console.group('Payload: ');
   console.log("Headers: ", headers1);
   console.log("Body: ", req.body);
   console.groupEnd();
