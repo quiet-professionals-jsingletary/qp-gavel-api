@@ -9,13 +9,13 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'f4840aff-d81d-4152-be58-f7ac965583ce'
+  azureSubscription: '6eea0f19-917b-4b92-91cc-efa192aba57c'
 
   # Web app name
-  webAppName: 'qp-gavel-svr-mvp'
+  webAppName: 'gavel-dev-server'
 
   # Environment name
-  environmentName: 'qp-gavel-svr-mvp'
+  environmentName: 'gavel-dev-server'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -73,7 +73,7 @@ stages:
               workingDir: '.'
               verbose: true
           - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: qp-gavel-svr-mvp'
+            displayName: 'Azure App Service Deploy: gavel-dev-server'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
