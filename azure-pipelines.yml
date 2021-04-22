@@ -9,7 +9,7 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '6eea0f19-917b-4b92-91cc-efa192aba57c'
+  azureSubscription: 'f4840aff-d81d-4152-be58-f7ac965583ce'
 
   # Web app name
   webAppName: 'gavel-dev-server'
