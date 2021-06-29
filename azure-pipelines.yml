@@ -80,4 +80,4 @@ stages:
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'NODE|12.19.0'
-              StartupCommand: 'npm run start'
+              StartupCommand: 'pm2 serve server.js -i max --name qp-gavel-api --no-daemon'
