@@ -4,18 +4,18 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- develop
+- master
 
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'f4840aff-d81d-4152-be58-f7ac965583ce'
+  azureSubscription: '805dd036-f470-49f4-8d1a-3de148c30f54'
 
   # Web app name
-  webAppName: 'gavel-dev-server'
+  webAppName: 'qp-gavel-api'
 
   # Environment name
-  environmentName: 'gavel-dev-server'
+  environmentName: 'qp-gavel-svr-mvp'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -73,11 +73,11 @@ stages:
               workingDir: '.'
               verbose: true
           - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: gavel-dev-server'
+            displayName: 'Azure App Service Deploy: qp-gavel-api'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'NODE|12.19.0'
-              # StartupCo#mmand: 'npm run start'
+              StartupCommand: 'pm2 serve server.js -i max --name qp-gavel-api --no-daemon'
