@@ -20,7 +20,8 @@
     "sloc": "^0.2.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:pm2": "pm2 start server.js -i max --name gavel-api --watch"
   },
   "repository": {
     "type": "git",

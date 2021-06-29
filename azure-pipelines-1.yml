@@ -4,12 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- dev
+- master
 
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'a1326a58-c647-483e-8e68-43c9270bb151'
+  # azureSubscription: 'a1326a58-c647-483e-8e68-43c9270bb151'
+  azureSubscription: '805dd036-f470-49f4-8d1a-3de148c30f54'
 
   # Web app name
   webAppName: 'qp-gavel-svr-mvp'
@@ -75,4 +76,5 @@ stages:
               appName: $(webAppName)
               runtimeStack: 'NODE|12.19.0'
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              startUpCommand: 'npm run start'
+              startUpCommand: 'pm2 start server.js'
+              # startUpCommand: 'npm run start'

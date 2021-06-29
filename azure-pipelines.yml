@@ -21,18 +21,18 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Build
-  displayName: Build Stage
+- stage: Stage 1
+  displayName: Create build
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Building
     pool:
       vmImage: $(vmImageName)
 
     steps:
       # - task: NodeTool@0
       #   inputs:
-      #     versionSpec: '12.19.0'
+      #     versionSpec: '14.17.1'
       #   displayName: 'Install Node.js'
 
       # - script: |
@@ -42,7 +42,7 @@ stages:
       #   displayName: 'npm install, build and test'
       
     - task: ArchiveFiles@2
-      displayName: 'Archive files'
+      displayName: 'Create new artifact'
       inputs:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
         includeRootFolder: false
@@ -50,16 +50,16 @@ stages:
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
 
-- stage: Deploy
-  displayName: Deploy Stage
+- stage: Stage 2
+  displayName: Deploy build
   dependsOn: Build
   condition: succeeded()
   jobs:
   - deployment: Deploy
-    displayName: Deploy
+    displayName: Deploying
     environment: $(environmentName)
     pool:
       vmImage: $(vmImageName)
@@ -79,5 +79,6 @@ stages:
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|12.19.0'
-              StartupCommand: 'pm2 start "npm start" -i max --name qp-gavel-api --watch'
+              RuntimeStack: 'NODE|14.17.1'
+              StartupCommand: 'npm run start:pm2'
+              # StartupCommand: 'pm2 start "npm start" -i max --name qp-gavel-api --watch'
