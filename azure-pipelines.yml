@@ -12,7 +12,7 @@ variables:
   azureSubscription: '805dd036-f470-49f4-8d1a-3de148c30f54'
 
   # Web app name
-  webAppName: 'qp-gavel-api'
+  webAppName: 'qp-gavel-svr-mvp'
 
   # Environment name
   environmentName: 'qp-gavel-svr-mvp'
@@ -73,7 +73,7 @@ stages:
               workingDir: '.'
               verbose: true
           - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: qp-gavel-api'
+            displayName: 'Azure App Service Deploy: qp-gavel-svr-mvp'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
