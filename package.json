@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "start:pm2": "pm2 serve server.js -i max --name qp-gavel-api --no-daemon"
+    "start:pm2": "pm2 start server.js -i max --name gavel-api --watch"
   },
   "repository": {
     "type": "git",
