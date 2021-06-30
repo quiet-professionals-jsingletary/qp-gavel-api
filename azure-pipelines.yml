@@ -79,6 +79,6 @@ stages:
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|14.17.1'
-              # StartupCommand: 'pm2 serve server.js -i 4 --name gavel-api --watch'
-              # StartupCommand: 'pm2 start "npm start" -i max --name qp-gavel-api --watch'
+              RuntimeStack: 'NODE|14.15.1'
+              # StartupCommand: 'pm2 start server.js -i 4 --name gavel-api --watch'
+              StartupCommand: 'pm2 start "npm start" -i 4 --name gavel-api --watch'
