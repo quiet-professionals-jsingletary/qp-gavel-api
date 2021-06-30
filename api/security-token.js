@@ -42,7 +42,7 @@ const keyData = new NodeRSA('-----BEGIN RSA PRIVATE KEY-----\n' +
 //#endregion
 
 var decrypted = "0";
-const apiKey = process.env.REACT_APP_API_KEY;
+const apiKey = process.env.API_KEY;
 const securityToken = asyncMiddleware(async (req, res, next) => {
   
   const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";

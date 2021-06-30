@@ -4,7 +4,7 @@ const { decryptedToken, securityToken } = require('./security-token');
 
 require('dotenv').config();
 
-const apiKey = process.env.REACT_APP_API_KEY;
+const apiKey = process.env.API_KEY;
 
 /*/  
  *  ┌────────────────────────────────────┐

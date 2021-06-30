@@ -40,7 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 const api = require('./routes/routes');
 
 // Add API version to URI
-app.use(process.env.REACT_APP_API_VERSION, api);
+app.use(process.env.API_VERSION, api);
 
 /*/
  *  ┌────────────────────────┐
