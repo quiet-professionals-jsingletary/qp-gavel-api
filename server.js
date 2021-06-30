@@ -69,10 +69,11 @@ app.use((req, res, next) => {
 // Middleware communicates to Express which files to serve up
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   // app.use(express.static(path.join(__dirname, 'client/build')));
-  // app.get('/', function (req, res) {
-  //   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  // });
-  console.log('Node Environment: ', process.env.NODE_ENV);
+  app.get('/', function (req, res) {
+    // res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    return res.send(`CURRENT ENV: ` + process.env.NODE_ENV);
+  });
+  console.log('Node Environment: ', process.env.NODE_ENV); 
 }
 
 /*/
@@ -82,11 +83,11 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 /*/
 const CURRENT_ENV = process.env.NODE_ENV;
 app.get("/", (req, res) => {
-  res.status(200).send(`GAVEL's Companion API (${ CURRENT_ENV }) \n- Powered by Quiet Professionals LLC`);
+  res.status(200).send(`GAVEL's Companion API ( ${CURRENT_ENV} ) \n- Powered by Quiet Professionals LLC`);
 });
 
 // TODO: Ad-Hoc `status` endpoint to relocate to the actual routes file.
-app.post("/status", (req, res) => {
+app.get("/status", (req, res) => {
   return res.send({
     status: "GAVEL server is up and running...",
   });
