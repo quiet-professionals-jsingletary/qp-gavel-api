@@ -9,7 +9,7 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'Microsoft Azure Sponsorship (805dd036-f470-49f4-8d1a-3de148c30f54)'
+  azureSubscription: '805dd036-f470-49f4-8d1a-3de148c30f54'
 
   # Web app name
   webAppName: 'qp-gavel-svr-mvp'
