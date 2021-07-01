@@ -21,7 +21,8 @@
     "sloc": "^0.2.1"
   },
   "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "start": "npm run start:dev",
+    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
     "start:dev": "pm2-runtime start ecosystem.config.js --env development"
   },
   "repository": {

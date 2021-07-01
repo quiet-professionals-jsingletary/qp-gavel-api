@@ -28,7 +28,7 @@ require('dotenv').config();
  *  └────────────────────────┘
 /*/
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
@@ -49,7 +49,7 @@ app.use(process.env.API_VERSION, api);
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
 const corsOptions = {
-  "origin": "http://localhost:3000",
+  "origin": "http://localhost:8080",
   "optionsSuccessStatus": 200,
 }
 app.use(cors(corsOptions));
@@ -69,10 +69,10 @@ app.use((req, res, next) => {
 // Middleware communicates to Express which files to serve up
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   // app.use(express.static(path.join(__dirname, 'client/build')));
-  app.get('/', function (req, res) {
-    // res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-    return res.send(`CURRENT ENV: ` + process.env.NODE_ENV);
-  });
+  // app.get('/', function (req, res) {
+  //   // res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  //   return res.send(`CURRENT ENV: ` + process.env.NODE_ENV);
+  // });
   console.log('Node Environment: ', process.env.NODE_ENV); 
 }
 
