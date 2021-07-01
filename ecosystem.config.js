@@ -5,8 +5,7 @@ module.exports = {
     script: "./server.js",
     exec_mode: "cluster",
     instances: 2,
-    watch: true,
-    ignore_watch: ["[\/\\]\./", "node_modules"],
+    watch: false,
     env: {
       NODE_ENV: "development"
     },
