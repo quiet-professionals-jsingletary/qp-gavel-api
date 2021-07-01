@@ -9,7 +9,7 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '805dd036-f470-49f4-8d1a-3de148c30f54'
+  azureSubscription: 'Microsoft Azure Sponsorship (805dd036-f470-49f4-8d1a-3de148c30f54)'
 
   # Web app name
   webAppName: 'qp-gavel-svr-mvp'
@@ -30,22 +30,22 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
-      # - task: NodeTool@0
-      #   inputs:
-      #     versionSpec: '14.17.1'
-      #   displayName: 'Install Node.js'
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '14.15.1'
+      displayName: 'Install Node.js'
 
-      # - script: |
-      #     npm install
-      #     npm run build --if-present
-      #     npm run test --if-present
-      #   displayName: 'npm install, build and test'
-      
+    - script: |
+        npm install
+      # npm run build --if-present
+      # npm run test --if-present
+      displayName: 'npm install, build and test'
+    
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: false
+        includeRootFolder: true
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
@@ -67,16 +67,17 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Npm@1
-            inputs:
-              command: 'install'
-              workingDir: '.'
-              verbose: true
+          # - task: Npm@1
+          #   inputs:
+          #     command: 'install'
+          #     workingDir: '.'
+          #     verbose: true
           - task: AzureRmWebAppDeployment@4
             displayName: 'Azure App Service Deploy: qp-gavel-svr-mvp'
             inputs:
+              ConnectionType: 'AzureRM'
               azureSubscription: $(azureSubscription)
-              appType: webAppLinux
+              appType: 'webAppLinux'
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'NODE|14.15.1'
