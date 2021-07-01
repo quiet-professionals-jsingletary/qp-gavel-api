@@ -32,7 +32,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '14lts'
+        versionSpec: '14.15.1'
       displayName: 'Install Node.js'
 
     - script: |
@@ -80,6 +80,6 @@ stages:
               appType: 'webAppLinux'
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|14lts'
+              RuntimeStack: 'NODE|14.15.1'
               # StartupCommand: 'pm2 start server.js -i 2 --name gavel-api --watch'
               StartupCommand: 'pm2-runtime start ecosystem.config.js --env production'
