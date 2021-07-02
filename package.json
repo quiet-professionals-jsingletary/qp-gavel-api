@@ -20,10 +20,9 @@
   "devDependencies": {
     "sloc": "^0.2.1"
   },
-  "scripts": {
-    "start": "npm run start:dev",
-    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
-    "start:dev": "pm2-runtime start ecosystem.config.js --env development"
+  "engines": {
+    "node": ">=14.15.1",
+    "npm": ">=6.14.8"
   },
   "repository": {
     "type": "git",
@@ -36,6 +35,11 @@
     "Quiet Professionals LLC",
     "Venntel"
   ],
+  "scripts": {
+    "start": "npm run start:dev",
+    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
+    "start:dev": "pm2-runtime start ecosystem.config.js --env development"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Quiet-Professionals-LLC/qp-ampd-app/issues"
