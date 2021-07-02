@@ -67,12 +67,12 @@ stages:
       runOnce:
         deploy:
           steps:
-          # - task: Npm@1
-          #   displayName: 'npm install (packages)'
-          #   inputs:
-          #     command: 'install'
-          #     workingDir: '.'
-          #     verbose: true
+          - task: Npm@1
+            displayName: 'npm install (packages)'
+            inputs:
+              command: 'install'
+              workingDir: '.'
+              verbose: true
           - task: AzureRmWebAppDeployment@4
             displayName: 'Deploying Azure App Service'
             inputs:
