@@ -5,7 +5,7 @@ LABEL maintainer="Keymetrics <contact@keymetrics.io>"
 RUN npm install pm2 -g
 
 # Expose ports needed to use Keymetrics.io
-EXPOSE 80 443 8000 8080 43554
+EXPOSE 8000 8080
 
 # Start pm2.json process file
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]
