@@ -28,7 +28,7 @@ require('dotenv').config();
  *  └────────────────────────┘
 /*/
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
@@ -49,7 +49,7 @@ app.use(process.env.API_VERSION, api);
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
 const corsOptions = {
-  "origin": "http://localhost:8080",
+  "origin": "http://localhost:3000",
   "optionsSuccessStatus": 200,
 }
 app.use(cors(corsOptions));
