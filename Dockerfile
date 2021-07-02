@@ -2,7 +2,7 @@ FROM debian:stretch-slim
 
 LABEL maintainer="James Singletary <jsingletary@quietprofessionalsllc.com>"
 
-ENV NODE_VERSION 14.17.1
+ENV NODE_VERSION 14.15.1
 
 # Install pm2
 RUN npm install pm2

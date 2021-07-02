@@ -71,7 +71,7 @@ stages:
             displayName: 'npm install'
             inputs:
               command: 'install'
-              workingDir: $(System.DefaultWorkingDirectory)
+              workingDir: '.'
               verbose: true
           - task: AzureRmWebAppDeployment@4
             displayName: 'Deploying Azure App Service'
