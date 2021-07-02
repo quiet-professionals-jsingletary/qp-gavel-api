@@ -3,7 +3,7 @@ module.exports = {
     name: "gavel-api",
     script: "./server.js",
     instances: 1,
-    exec_mode: "fork",
+    exec_mode: "cluster",
     watch: true,
     autorestart: true,
     ignore_watch: ["node_modules"],
