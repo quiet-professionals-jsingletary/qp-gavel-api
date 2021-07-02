@@ -22,8 +22,8 @@
   },
   "scripts": {
     "start": "npm run start:dev",
-    "start:prod": "pm2-runtime start ecosystem.config.js --only gavel-api --env production",
-    "start:dev": "pm2-runtime start ecosystem.config.js --only gavel-api --env development"
+    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
+    "start:dev": "pm2-runtime start ecosystem.config.js --env development"
   },
   "repository": {
     "type": "git",
