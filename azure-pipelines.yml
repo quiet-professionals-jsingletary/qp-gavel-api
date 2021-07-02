@@ -68,7 +68,7 @@ stages:
         deploy:
           steps:
           - task: Npm@1
-            displayName: 'npm install (packages)'
+            displayName: 'npm install'
             inputs:
               command: 'install'
               workingDir: '.'
@@ -81,6 +81,6 @@ stages:
               appType: 'webAppLinux'
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|14.15.1'
+              RuntimeStack: 'NODE|14-lts'
               # StartupCommand: 'pm2 start server.js -i 2 --name gavel-api --watch'
               StartupCommand: 'npm run start:prod'
