@@ -19,7 +19,7 @@ const cors = require('cors');
 // const fetch = require('node-fetch');
 const path = require('path');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 // TODO: Determine if `react-helmet` would be useful
 /*/  
@@ -28,7 +28,7 @@ require('dotenv').config();
  *  └────────────────────────┘
 /*/
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
@@ -49,7 +49,7 @@ app.use(process.env.API_VERSION, api);
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
 const corsOptions = {
-  "origin": "http://localhost:3000",
+  "origin": "http://localhost:8000",
   "optionsSuccessStatus": 200,
 }
 app.use(cors(corsOptions));
@@ -83,7 +83,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 /*/
 const CURRENT_ENV = process.env.NODE_ENV;
 app.get("/", (req, res) => {
-  res.status(200).send(`GAVEL's Companion API ( ${CURRENT_ENV} ) \n- Powered by Quiet Professionals LLC`);
+  res.send(`GAVEL's Companion API ( ${CURRENT_ENV} ) \n- Powered by Quiet Professionals LLC`);
 });
 
 // TODO: Ad-Hoc `status` endpoint to relocate to the actual routes file.

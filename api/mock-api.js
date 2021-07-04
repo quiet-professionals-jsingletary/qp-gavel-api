@@ -21,7 +21,7 @@ const securityTokenMock = asyncMiddleware(async (req, res, next) => {
   });
 
   const json2 = await fetch_res2.json();
-  res.status(200).json(json2);
+  res.json(json2);
 
 });
 
@@ -45,7 +45,7 @@ const devicesMock = asyncMiddleware(async (req, res, next) => {
   });
 
   const json3 = await fetch_res3.json();
-  res.status(200).json(json3);
+  res.json(json3);
 });
 
 exports.securityTokenMock = securityTokenMock;

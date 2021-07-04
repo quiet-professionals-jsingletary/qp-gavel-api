@@ -50,7 +50,7 @@ const devices = asyncMiddleware(async (req, res, next) => {
     // _Import the Calcite toaster module for niotifications
   }
   
-  res.status(200).json(fetchedJson);
+  res.json(fetchedJson);
 });
 
 
@@ -98,7 +98,7 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
 
   //let regids = json1.registrationIDs;
   // res.json({ "resJsonData": json(json1) });
-  res.status(200).json(json1);
+  res.json(json1);
 
 });
 
