@@ -70,7 +70,7 @@ const securityToken = asyncMiddleware(async (req, res, next) => {
 
   // console.log("Decrypted Token: ", decrypted);
 
-  res.status(200).json({ "TempSecurityToken": decrypted });
+  res.json({ "TempSecurityToken": decrypted });
 
 });
 
