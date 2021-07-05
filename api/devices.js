@@ -66,6 +66,7 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
   let headers1 = {
     "Accept": "application/json",
     "Content-Type": "application/json",
+    "Content-Security-Policy": "default-src *://*.azurewebsites.net",
     "Authorization": apiKey,
     "TempSecurityToken": decryptedToken,
   };

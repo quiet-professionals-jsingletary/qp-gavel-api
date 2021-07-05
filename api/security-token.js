@@ -48,8 +48,9 @@ const securityToken = asyncMiddleware(async (req, res, next) => {
   const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
 
   let headers = {
-    "Content-Type": "application/json",
     "Accept": "application/json",
+    "Content-Type": "application/json",
+    "Content-Security-Policy": "default-src *://*.azurewebsites.net",
     "Authorization": apiKey
   };
 

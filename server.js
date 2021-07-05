@@ -48,12 +48,12 @@ app.use(process.env.API_VERSION, api);
  *  └────────────────────────┘
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
-// const corsOptions = {
-//   "origin": "http://localhost:8080",
-//   "optionsSuccessStatus": 200,
-// }
-// app.use(cors(corsOptions));
-// console.log('CORS Status: ', cors);
+const corsOptions = {
+  "origin": "http://localhost:5000",
+  "optionsSuccessStatus": 200,
+}
+app.use(cors(corsOptions));
+console.log('CORS Status: ', cors);
 
 /*/
  *  ┌─────────────────────────────┐
