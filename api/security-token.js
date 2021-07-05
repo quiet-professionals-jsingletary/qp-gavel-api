@@ -1,5 +1,7 @@
+const axios = require('axios');
 const fetch = require('node-fetch');
 const NodeRSA = require('node-rsa');
+const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware');
 
 require('dotenv').config();
@@ -43,37 +45,44 @@ const keyData = new NodeRSA('-----BEGIN RSA PRIVATE KEY-----\n' +
 
 var decrypted = "0";
 const apiKey = process.env.API_KEY;
-const securityToken = asyncMiddleware(async (req, res, next) => {
-  
+const securityToken = async (req, res, next) => {
   const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
 
   let headers = {
     "Accept": "application/json",
     "Content-Type": "application/json",
-    "Content-Security-Policy": "default-src *://*.azurewebsites.net",
+    // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
     "Authorization": apiKey
   };
 
-  const fetch_res = await fetch(url, {
-    "method": "GET",
-    "headers": headers,
-  });
+  try {
+    logger.debug("Init Token`try/catch` ")
+    let response = await axios({
+      method: 'get',
+      url: url,
+      headers: headers,
+      responseType: 'json'
+    })
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    let json = await response.json();
+  
+    // Decrypt Key
+    const token = json.tempSecurityEncryptedToken;
+    // TODO: Move the decryption logic into a Route Handler
+    keyData.setOptions({ encryptionScheme: 'pkcs1' });
+    decrypted = keyData.decrypt(token, 'utf8');
 
-  const json = await fetch_res.json();
+    res.json({ "TempSecurityToken": decrypted });
+    
+  } catch (error) {
+    logger.error("Token Error: ", error);
+  }
 
-  // Decrypt Key
-  const token = json.tempSecurityEncryptedToken;
-
-  // TODO: Move the decryption logic into a Route Handler
-  keyData.setOptions({ encryptionScheme: 'pkcs1' });
-
-  decrypted = keyData.decrypt(token, 'utf8');
-
-  // console.log("Decrypted Token: ", decrypted);
-
-  res.json({ "TempSecurityToken": decrypted });
-
-});
+};
 
 exports.securityToken = securityToken;
 exports.decryptedToken = decrypted;

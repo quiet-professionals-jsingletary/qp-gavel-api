@@ -14,12 +14,12 @@
 
 // Imports
 const express = require('express');
-// const bodyParser = require('body-parser');
 const cors = require('cors');
-// const fetch = require('node-fetch');
+const fetch = require('node-fetch');
 const path = require('path');
+const logger = require('./logs/logger');
 
-// require('dotenv').config();
+require('dotenv').config();
 
 // TODO: Determine if `react-helmet` would be useful
 /*/  
@@ -48,12 +48,12 @@ app.use(process.env.API_VERSION, api);
  *  └────────────────────────┘
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
-const corsOptions = {
-  "origin": "http://localhost:5000",
-  "optionsSuccessStatus": 200,
-}
-app.use(cors(corsOptions));
-console.log('CORS Status: ', cors);
+// const corsOptions = {
+//   "origin": "http://localhost:5000",
+//   "optionsSuccessStatus": 200,
+// }
+// app.use(cors(corsOptions));
+// logger.info('CORS Status: ', cors);
 
 /*/
  *  ┌─────────────────────────────┐
@@ -62,7 +62,7 @@ console.log('CORS Status: ', cors);
 /*/
 // Middleware logs incoming requests to the server's console
 app.use((req, res, next) => {
-  console.log(`Request_Endpoint: ${req.method} ${req.url}`);
+  logger.debug(`Request_Endpoint: ${req.method} ${req.url}`);
   next();
 });
 
@@ -73,7 +73,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
   //   // res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   //   return res.send(`CURRENT ENV: ` + process.env.NODE_ENV);
   // });
-  console.log('Node Environment: ', process.env.NODE_ENV); 
+  logger.info('Node Environment: ', process.env.NODE_ENV); 
 }
 
 /*/
@@ -109,43 +109,6 @@ function error(status, msg) {
   return err;
 }
 
-// error handling middleware. When you next(err)
-// it will be passed through the defined middleware
-// in order, but ONLY those with an arity of 4, ignoring
-// regular middleware.
-// app.use(function (err, req, res, next) {
-//   // whatever you want here, feel free to populate
-//   // properties on `err` to treat it differently in here.
-//   res.status(err.status || 500);
-//   res.send({ error: err.message });
-// });
-
-// Custom JSON 404 middleware. Since it's placed last
-// it will be the last middleware called, if all others
-// invoke next() and do not respond.
-// app.use(function (req, res) {
-//   res.status(404);
-//   res.send({ error: "Sorry, can't find that" });
-// });
-
-// later, if you want to clean up
-// require('console-group').teardown();
-
-/*/
- *  ┌────────────────────────┐
- *  │ |> Api Endpoints       │
- *  └────────────────────────┘
- *   All endpoints live in the `./api` directory 
-/*/
-
-/*/
- *  ┌──────────────────────────────┐
- *  │ |> Mock-Data Endpoints       │
- *  └──────────────────────────────┘
- *   Use mock data when Venntel API is not accessible (whitelisting)
- *   Also live in the `./api` directory
-/*/
-
 /*/
  *  ┌───────────────────────────────────┐
  *  │ |> Start Server & Listen to Port  │
@@ -153,5 +116,5 @@ function error(status, msg) {
 /*/
 // console.log('module: ', module);
 app.listen(port, () => {
-  console.log(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
+  logger.info(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
 });

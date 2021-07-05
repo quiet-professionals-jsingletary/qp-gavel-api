@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware');
 const { decryptedToken, securityToken } = require('./security-token');
 
@@ -29,7 +30,7 @@ const devices = asyncMiddleware(async (req, res, next) => {
   // var raw = JSON.stringify({ "startDate": "2020-12-01T14:00:00Z", "endDate": "2020-12-01T17:00:00Z", "areas": [{ "longitude": -83.278488, "latitude": 30.832703, "radius": 50 }] });
 
   // console.log('Req Payload', req.body);
-  console.log('REQ PAYLOAD (server-side): ', req.body);
+  logger.debug('REQ PAYLOAD (server-side): ', req.body);
 
   let requestOptions = {
     method: 'POST',
@@ -42,7 +43,7 @@ const devices = asyncMiddleware(async (req, res, next) => {
 
   let areaQueryFetch = await fetch(searchUrl, requestOptions);
   const fetchedJson = await areaQueryFetch.json();
-  console.log('Serialized Data: ', fetchedJson);
+  logger.debug('Serialized Data: ', fetchedJson);
 
   // Check SecurityToken
   if (res.status === 401) {
@@ -59,14 +60,14 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
   const searchUrl = "https://staging-bs-api.venntel.com/v1.5/locationData/search";
   // const searchUrl = "https://decryptvennteltemptoken.azurewebsites.us/api/FuncDecryptVenntelTT";
 
-  console.log('Token: ', decryptedToken);
-  console.log('Token: ', securityToken);
-  console.log('Request: ', req.body);
+  logger.info('Token: ', decryptedToken);
+  logger.info('Token: ', securityToken);
+  logger.info('Request: ', req.body);
 
   let headers1 = {
     "Accept": "application/json",
     "Content-Type": "application/json",
-    "Content-Security-Policy": "default-src *://*.azurewebsites.net",
+    // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
     "Authorization": apiKey,
     "TempSecurityToken": decryptedToken,
   };
@@ -81,10 +82,10 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
   //   }]
   // };
 
-  console.group('Payload: ');
-  console.log("Headers: ", headers1);
-  console.log("Body: ", req.body);
-  console.groupEnd();
+  logger.group('Payload: ');
+  logger.info("Headers: ", headers1);
+  logger.info("Body: ", req.body);
+  logger.groupEnd();
 
   // res.send(headers1);
 
@@ -95,7 +96,7 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
   });
 
   const json1 = await fetch_res1.json();
-  console.log('Request Data: ', req.body);
+  logger.info('Request Data: ', req.body);
 
   //let regids = json1.registrationIDs;
   // res.json({ "resJsonData": json(json1) });
