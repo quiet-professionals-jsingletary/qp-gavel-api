@@ -46,18 +46,20 @@ const keyData = new NodeRSA('-----BEGIN RSA PRIVATE KEY-----\n' +
 var decrypted = "0";
 const apiKey = process.env.API_KEY;
 const securityToken = async (req, res, next) => {
-  const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
-
-  let headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
-    // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
-    "Authorization": apiKey
-  };
 
   try {
+    const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
+
+    let headers = {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
+      "Authorization": apiKey
+    }
+
     logger.debug("Init Token`try/catch` ")
-    let response = await axios({
+    let response = 
+    await axios({
       method: 'get',
       url: url,
       headers: headers,

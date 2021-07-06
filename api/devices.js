@@ -31,6 +31,7 @@ const devices = asyncMiddleware(async (req, res, next) => {
 
   // console.log('Req Payload', req.body);
   logger.debug('REQ PAYLOAD (server-side): ', req.body);
+  
 
   let requestOptions = {
     method: 'POST',

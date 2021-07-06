@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fetch = require('node-fetch');
+const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware');
 const { decryptedToken } = require('./security-token');
 
@@ -60,7 +61,7 @@ const gitHubMock = asyncMiddleware(async (req, res, next) => {
   };
 
   try {
-    logger.debug("Init Token`try/catch` ")
+    logger.debug("GitHub `try/catch` ")
     let response = await axios({
       method: 'get',
       url: url,
@@ -77,10 +78,11 @@ const gitHubMock = asyncMiddleware(async (req, res, next) => {
     res.json(jsonRes);
 
   } catch (error) {
-    logger.error("Token Error: ", error);
+    logger.error("GitHub Error: ", error);
   }
 
 });
 
 exports.securityTokenMock = securityTokenMock;
 exports.devicesMock = devicesMock;
+exports.gitHubMock = gitHubMock;
