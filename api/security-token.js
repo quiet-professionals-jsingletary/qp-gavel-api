@@ -45,46 +45,36 @@ const keyData = new NodeRSA('-----BEGIN RSA PRIVATE KEY-----\n' +
 
 var decrypted = "0";
 const apiKey = process.env.API_KEY;
-const securityToken = async (req, res, next) => {
+const securityToken = asyncMiddleware(async (req, res, next) => {
 
-  try {
-    const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
+  const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
 
-    let headers = {
+  logger.debug("Init Token`try/catch` ");
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
-      // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
       "Authorization": apiKey
     }
+  });
 
-    logger.debug("Init Token`try/catch` ")
-    let response = 
-    await axios({
-      method: 'get',
-      url: url,
-      headers: headers,
-      responseType: 'json'
-    })
-  
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-  
-    let json = await response.json();
-  
-    // Decrypt Key
-    const token = json.tempSecurityEncryptedToken;
-    // TODO: Move the decryption logic into a Route Handler
-    keyData.setOptions({ encryptionScheme: 'pkcs1' });
-    decrypted = keyData.decrypt(token, 'utf8');
+  // if (!response.ok) {
+  //   throw new Error(`HTTP error! status: ${response.status}`);
+  // }
 
-    res.json({ "TempSecurityToken": decrypted });
-    
-  } catch (error) {
-    logger.error("Token Error: ", error);
-  }
+  let json = await response.json();
 
-};
+  // Decrypt Key
+  const token = json.tempSecurityEncryptedToken;
+  // TODO: Move the decryption logic into a Route Handler
+  keyData.setOptions({ encryptionScheme: 'pkcs1' });
+  decrypted = keyData.decrypt(token, 'utf8');
+
+  res.json({ "TempSecurityToken": decrypted });
+
+});
 
 exports.securityToken = securityToken;
 exports.decryptedToken = decrypted;
