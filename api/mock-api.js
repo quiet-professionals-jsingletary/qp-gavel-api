@@ -60,26 +60,30 @@ const gitHubMock = asyncMiddleware(async (req, res, next) => {
     // "Authorization": apiKey
   };
 
-  try {
-    logger.debug("GitHub `try/catch` ")
-    let response = await axios({
-      method: 'get',
-      url: url,
-      headers: headers,
-      responseType: 'json'
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  logger.debug("GitHub `try/catch` ")
+  const response = await fetch(url, {
+    "method": "GET",
+    "headers": {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
+      // "Authorization": apiKey
     }
+  });
 
-    let jsonRes = await response.json();
+  // if (!response.ok) {
+  //   throw new Error(`HTTP error! status: ${response.status}`);
+  // }
 
-    res.json(jsonRes);
+  let jsonRes = await response.json();
 
-  } catch (error) {
-    logger.error("GitHub Error: ", error);
-  }
+  res.json(jsonRes);
+  
+  // try {
+
+  // } catch (error) {
+  //   logger.error("GitHub Error: ", error);
+  // }
 
 });
 

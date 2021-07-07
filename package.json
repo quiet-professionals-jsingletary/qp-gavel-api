@@ -36,7 +36,7 @@
     "Venntel"
   ],
   "scripts": {
-    "start": "npm run start:dev",
+    "start": "npm run start:prod",
     "start:prod": "pm2-runtime start ecosystem.config.js --env production",
     "start:dev": "pm2 start ecosystem.config.js --env development"
   },

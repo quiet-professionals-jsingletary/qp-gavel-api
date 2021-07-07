@@ -1,8 +1,8 @@
 const axios = require('axios');
 const fetch = require('node-fetch');
 const NodeRSA = require('node-rsa');
-const logger = require('../logs/logger');
-const { asyncMiddleware } = require('./middleware/async-middleware');
+const logger = require('../logs/logger.js');
+const { asyncMiddleware } = require('./middleware/async-middleware.js');
 
 require('dotenv').config();
 
@@ -47,7 +47,7 @@ var decrypted = "0";
 const apiKey = process.env.API_KEY;
 const securityToken = asyncMiddleware(async (req, res, next) => {
 
-  const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
+  const url = "http://staging-bs-api.venntel.com/v1.5/securityToken";
 
   logger.debug("Init Token`try/catch` ");
 
