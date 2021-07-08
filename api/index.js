@@ -1,5 +1,10 @@
-exports.securityToken = require('./security-token');
-exports.devices = require('./devices');
+/*/
+ *  ┌────────────────────────────────┐
+ *  │ |>  ReExport / Funnel Routes   │
+ *  └────────────────────────────────┘
+/*/
+exports.securities = require('./securities');
+exports.locations = require('./locations');
 
-exports.securityTokenMock = require('./mock-api');
-exports.devicesMock = require('./mock-api');
+// Mock API
+exports.mock_api = require('./mocks-api');

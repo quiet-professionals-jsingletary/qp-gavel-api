@@ -5,15 +5,13 @@
 /*/
 const express = require('express');
 const router = express.Router();
-const { 
-  securityTokenMock,
-  devicesMock,
-  gitHubMock 
-} = require('../api/mock-api');
+const mocks = require('../api/mocks-api');
+
+router.use('/mocks', mocks);
 
 // Mock-Api
-router.get('/mock-token', securityTokenMock);
-router.get('/mock-data', devicesMock);
-router.get('/mock-data-test', gitHubMock);
+router.get('/security-token', mocks.securityTokenMock);
+router.get('/locations', mocks.locations);
+router.get('/gitHub', mocks.gitHub);
 
 module.exports = router;

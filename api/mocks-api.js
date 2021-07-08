@@ -2,7 +2,7 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware');
-const { decryptedToken } = require('./security-token');
+const { decryptedToken } = require('./securities');
 
 /*/  
  *  ┌───────────────────────────┐
@@ -27,7 +27,7 @@ const securityTokenMock = asyncMiddleware(async (req, res, next) => {
 
 });
 
-const devicesMock = asyncMiddleware(async (req, res, next) => {
+const locationsMock = asyncMiddleware(async (req, res, next) => {
   
   const url3 = "https://my-json-server.typicode.com/Quiet-Professionals-LLC/demo/locationData";
   // let headers = {
@@ -87,6 +87,6 @@ const gitHubMock = asyncMiddleware(async (req, res, next) => {
 
 });
 
-exports.securityTokenMock = securityTokenMock;
-exports.devicesMock = devicesMock;
-exports.gitHubMock = gitHubMock;
+exports.securityToken = securityTokenMock;
+exports.locations = locationsMock;
+exports.gitHub = gitHubMock;

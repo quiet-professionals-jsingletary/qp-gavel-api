@@ -13,14 +13,17 @@
 */   
 
 // Imports
+// TODO: Convert all `commonjs` requires to `ES6` import modules (>=v14.5.1)
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const path = require('path');
 const logger = require('./logs/logger');
 
-// Require Route
-const mocks = require('./routes/mock-router');
+// Require Routes
+const mocks_router = require('./routes/mocks-router');
+const locations_router = require('./routes/locations-router');
+const securities_router = require('./routes/securities-router');
 
 require('dotenv').config();
 
@@ -41,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Add API version to URI
-app.use(process.env.API_VERSION, mocks);
+app.use(process.env.API_VERSION, './api');
 
 /*/
  *  ┌────────────────────────┐
@@ -49,12 +52,12 @@ app.use(process.env.API_VERSION, mocks);
  *  └────────────────────────┘
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
-// const corsOptions = {
-//   "origin": "//localhost:5000",
-//   "optionsSuccessStatus": 200,
-// }
-// app.use(cors(corsOptions));
-// logger.info('CORS Status: ', corsOptions);
+const corsOptions = {
+  "origin": "//localhost:5000",
+  "optionsSuccessStatus": 200,
+}
+app.use(cors(corsOptions));
+logger.info('CORS Status: ', corsOptions);
 
 /*/
  *  ┌─────────────────────────────┐

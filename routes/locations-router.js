@@ -1,12 +1,14 @@
 /*/
  *  ┌────────────────────────────┐
- *  │ |>  Security Token Routes  │
+ *  │ |>  Query Data Routes      │
  *  └────────────────────────────┘
 /*/
 const express = require('express');
 const router = express.Router();
-const { securityToken } = require('../api/security-token');
+const locations = require('../api/locations');
 
-router.get('/security-token', securityToken);
+router.use('/locations', locations);
+
+router.post('/area', locations.area);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware');
-const { decryptedToken, securityToken } = require('./security-token');
+const { decryptedToken, securityToken } = require('./securities');
 
 require('dotenv').config();
 
@@ -13,7 +13,7 @@ const apiKey = process.env.API_KEY;
  *  └────────────────────────────────────┘
  *  -- Rename this file to `location-data.js` when possible
 /*/
-const devices = asyncMiddleware(async (req, res, next) => {
+const areas = asyncMiddleware(async (req, res, next) => {
 
   // const { this: { locationData } = {} } = res;
 
@@ -56,7 +56,7 @@ const devices = asyncMiddleware(async (req, res, next) => {
 });
 
 
-const devices2 = asyncMiddleware(async (req, res, next) => {
+const pattern = asyncMiddleware(async (req, res, next) => {
 
   const searchUrl = "https://staging-bs-api.venntel.com/v1.5/locationData/search";
   // const searchUrl = "https://decryptvennteltemptoken.azurewebsites.us/api/FuncDecryptVenntelTT";
@@ -105,4 +105,4 @@ const devices2 = asyncMiddleware(async (req, res, next) => {
 
 });
 
-exports.devices = devices;
+exports.area = areas;
