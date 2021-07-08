@@ -17,18 +17,18 @@ const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
 const path = require('path');
-const logger = require('./logs/logger.js');
+const logger = require('./logs/logger');
 
 // Require Route
-const api = require('./routes/routes.js');
+const mocks = require('./routes/mock-router');
 
 require('dotenv').config();
 
 // TODO: Determine if `react-helmet` would be useful
 /*/  
- *  ┌────────────────────────┐
- *  │ |> Init Express Server │
- *  └────────────────────────┘
+ *  ┌───────────────────────────┐
+ *  │ |> Init Express Server    │
+ *  └───────────────────────────┘
 /*/
 const app = express();
 const port = process.env.PORT || 5000;
@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Add API version to URI
-app.use(process.env.API_VERSION, api);
+app.use(process.env.API_VERSION, mocks);
 
 /*/
  *  ┌────────────────────────┐
@@ -84,12 +84,12 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 /*/
 const CURRENT_ENV = process.env.NODE_ENV;
 app.get("/", (req, res) => {
-  res.send(`GAVEL's Companion API ( ${CURRENT_ENV} ) \n- Powered by Quiet Professionals LLC`);
+  res.send(`<h2>GAVEL's Companion API ( ${CURRENT_ENV} )</h2> </br> <i>Powered by Quiet Professionals LLC</i>`);
 });
 
 // TODO: Ad-Hoc `status` endpoint to relocate to the actual routes file.
 app.get("/status", (req, res) => {
-  return res.send({
+  res.send({
     status: "GAVEL server is up and running...",
   });
 });
@@ -117,5 +117,5 @@ function error(status, msg) {
 /*/
 // console.log('module: ', module);
 app.listen(port, () => {
-  logger.info(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
+  logger.info( `Express Server Running on port: ${port} - Take a peek http://localhost:${port}` );
 });

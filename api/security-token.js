@@ -47,7 +47,7 @@ var decrypted = "0";
 const apiKey = process.env.API_KEY;
 const securityToken = asyncMiddleware(async (req, res, next) => {
 
-  const url = "http://staging-bs-api.venntel.com/v1.5/securityToken";
+  const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
 
   logger.debug("Init Token`try/catch` ");
 
