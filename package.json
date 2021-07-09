@@ -4,20 +4,20 @@
   "author": "James Singletary IV",
   "description": "ExpressJS RESTful API Server built on top of RESTful API serving up data for GAVEL",
   "main": "server.js",
-  "homepage": "",
+  "type": "commonjs",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "concurrently": "^5.3.0",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
-    "ncp": "^2.0.0",
     "node-fetch": "^2.6.1",
     "node-rsa": "^1.1.1",
-    "nodemon": "^2.0.6",
     "pm2": "^5.1.0"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6",
+    "ncp": "^2.0.0",
     "sloc": "^0.2.1"
   },
   "engines": {
@@ -30,15 +30,15 @@
   },
   "keywords": [
     "GAVEL",
-    "Mobile Phone Data",
+    "Mobile Device Data",
     "QP",
     "Quiet Professionals LLC",
     "Venntel"
   ],
   "scripts": {
-    "start": "pm2 start ecosystem.config.js",
+    "start": "nodemon server",
     "start:prod": "pm2-runtime start ecosystem.config.js --env production",
-    "start:dev": "pm2-runtime start ecosystem.config.js --env development"
+    "start:dev": "pm2-dev start ecosystem.config.js --env development"
   },
   "license": "MIT",
   "bugs": {

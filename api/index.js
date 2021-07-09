@@ -1,5 +1,25 @@
-exports.securityToken = require('./security-token');
-exports.devices = require('./devices');
+/*/
+*  ┌────────────────────────────────┐
+*  │ |>  ReExport / Funnel Routes   │
+*  └────────────────────────────────┘
+/*/
+const express = require('express');
 
-exports.securityTokenMock = require('./mock-api');
-exports.devicesMock = require('./mock-api');
+// Mock Endpoints
+const locations = require('../routes/locations-router');
+const securities = require('../routes/securities-router');
+const mocks = require('../routes/mocks-router');
+
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.json({
+    "message": "Gavel Routes:",
+  });
+});
+
+router.use('/locations', locations);
+router.use('/securities', securities);
+router.use('/mocks', mocks);
+
+module.exports = router;

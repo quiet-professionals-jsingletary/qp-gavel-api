@@ -2,8 +2,8 @@ module.exports = {
   apps: [{
     name: "gavel-api",
     script: "./server.js",
-    instances: 1,
-    exec_mode: "fork",
+    instances: 2,
+    exec_mode: "cluster",
     watch: true,
     ignore_watch: ["node_modules"],
     env_development: {

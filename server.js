@@ -13,34 +13,33 @@
 */   
 
 // Imports
+// TODO: Convert all `commonjs` requires to `ES6` import modules (>=v14.5.1)
 const express = require('express');
-// const bodyParser = require('body-parser');
 const cors = require('cors');
-// const fetch = require('node-fetch');
-const path = require('path');
+const logger = require('./logs/logger');
 
-// require('dotenv').config();
+// Require Routes
+const api = require('./api');
+
+require('dotenv').config();
 
 // TODO: Determine if `react-helmet` would be useful
 /*/  
- *  ┌────────────────────────┐
- *  │ |> Init Express Server │
- *  └────────────────────────┘
+ *  ┌───────────────────────────┐
+ *  │ |> Init Express Server    │
+ *  └───────────────────────────┘
 /*/
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
+const environment = process.env.NODE_ENV;
+const version = process.env.API_VERSION;
+
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
 // --> (All middleware will run in order as they appear in code)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Require Route
-const api = require('./routes/routes');
-
-// Add API version to URI
-app.use(process.env.API_VERSION, api);
 
 /*/
  *  ┌────────────────────────┐
@@ -49,11 +48,14 @@ app.use(process.env.API_VERSION, api);
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
 // const corsOptions = {
-//   "origin": "http://localhost:8000",
+//   "origin": "//localhost:5000",
 //   "optionsSuccessStatus": 200,
 // }
 // app.use(cors(corsOptions));
-// console.log('CORS Status: ', cors);
+// logger.info('CORS Status: ', corsOptions);
+
+// Add API version to URI
+app.use(version, api);
 
 /*/
  *  ┌─────────────────────────────┐
@@ -62,18 +64,15 @@ app.use(process.env.API_VERSION, api);
 /*/
 // Middleware logs incoming requests to the server's console
 app.use((req, res, next) => {
-  console.log(`Request_Endpoint: ${req.method} ${req.url}`);
+  logger.debug(`Request_Endpoint: ${req.method} ${req.url}`);
   next();
 });
 
 // Middleware communicates to Express which files to serve up
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-  // app.use(express.static(path.join(__dirname, 'client/build')));
-  // app.get('/', function (req, res) {
-  //   // res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  //   return res.send(`CURRENT ENV: ` + process.env.NODE_ENV);
-  // });
-  console.log('Node Environment: ', process.env.NODE_ENV); 
+if (environment === 'production' || 
+    environment === 'staging' ||
+    environment === 'development') {
+  logger.info(`Node Environment: ${environment}`);
 }
 
 /*/
@@ -81,14 +80,13 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
  *  │ |> Catch Default Route      │
  *  └─────────────────────────────┘
 /*/
-const CURRENT_ENV = process.env.NODE_ENV;
 app.get("/", (req, res) => {
-  res.send(`GAVEL's Companion API ( ${CURRENT_ENV} ) \n- Powered by Quiet Professionals LLC`);
+  res.send(`<h3>GAVEL's Companion API ( ${environment} )</h3> </br> <i>Powered by Quiet Professionals LLC</i>`);
 });
 
 // TODO: Ad-Hoc `status` endpoint to relocate to the actual routes file.
 app.get("/status", (req, res) => {
-  return res.send({
+  res.send({
     status: "GAVEL server is up and running...",
   });
 });
@@ -109,49 +107,11 @@ function error(status, msg) {
   return err;
 }
 
-// error handling middleware. When you next(err)
-// it will be passed through the defined middleware
-// in order, but ONLY those with an arity of 4, ignoring
-// regular middleware.
-// app.use(function (err, req, res, next) {
-//   // whatever you want here, feel free to populate
-//   // properties on `err` to treat it differently in here.
-//   res.status(err.status || 500);
-//   res.send({ error: err.message });
-// });
-
-// Custom JSON 404 middleware. Since it's placed last
-// it will be the last middleware called, if all others
-// invoke next() and do not respond.
-// app.use(function (req, res) {
-//   res.status(404);
-//   res.send({ error: "Sorry, can't find that" });
-// });
-
-// later, if you want to clean up
-// require('console-group').teardown();
-
-/*/
- *  ┌────────────────────────┐
- *  │ |> Api Endpoints       │
- *  └────────────────────────┘
- *   All endpoints live in the `./api` directory 
-/*/
-
-/*/
- *  ┌──────────────────────────────┐
- *  │ |> Mock-Data Endpoints       │
- *  └──────────────────────────────┘
- *   Use mock data when Venntel API is not accessible (whitelisting)
- *   Also live in the `./api` directory
-/*/
-
 /*/
  *  ┌───────────────────────────────────┐
  *  │ |> Start Server & Listen to Port  │
  *  └───────────────────────────────────┘
 /*/
-// console.log('module: ', module);
 app.listen(port, () => {
-  console.log(`Express Server Running... | BACK_END_SERVICE_PORT: ${port}`);
+  logger.info( `Express Server Running on port: ${port} - Take a peek http://localhost:${port}` );
 });

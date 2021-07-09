@@ -71,7 +71,7 @@ stages:
             displayName: 'npm install'
             inputs:
               command: 'install'
-              workingDir: './'
+              workingDir: '.'
               verbose: true
           - task: AzureRmWebAppDeployment@4
             displayName: 'Deploying Azure App Service'
@@ -83,4 +83,4 @@ stages:
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               RuntimeStack: 'NODE|14-lts'
               # StartupCommand: 'pm2-runtime start ecosystem.config.js --env production'
-              StartupCommand: 'node server.js'
+              StartupCommand: 'npm run start:prod'
