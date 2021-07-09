@@ -1,7 +1,6 @@
-const axios = require('axios');
 const fetch = require('node-fetch');
 const NodeRSA = require('node-rsa');
-const logger = require('../logs/logger.js');
+const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware.js');
 
 require('dotenv').config();
@@ -43,36 +42,41 @@ const keyData = new NodeRSA('-----BEGIN RSA PRIVATE KEY-----\n' +
   '-----END RSA PRIVATE KEY-----');
 //#endregion
 
-var decrypted = "0";
+let decrypted = "0";
+
 const apiKey = process.env.API_KEY;
 const securityToken = asyncMiddleware(async (req, res, next) => {
+  try {
+    const searchUrl = "https://staging-bs-api.venntel.com/v1.5/securityToken";
 
-  const url = "https://staging-bs-api.venntel.com/v1.5/securityToken";
+    const response = await fetch(searchUrl, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": apiKey
+      }
+    });
 
-  logger.debug("Init Token`try/catch` ");
+    // NOTE: Error is meant for testing
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! status: ${response.status}`);
+    // }
 
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      "Authorization": apiKey
-    }
-  });
+    let jsonRes = await response.json();
 
-  // if (!response.ok) {
-  //   throw new Error(`HTTP error! status: ${response.status}`);
-  // }
+    // Decrypt Key
+    const token = jsonRes.tempSecurityEncryptedToken;
+    // TODO: Move the decryption logic into a Route Handler
+    keyData.setOptions({ encryptionScheme: 'pkcs1' });
+    decrypted = keyData.decrypt(token, 'utf8');
 
-  let json = await response.json();
+    res.json({ "TempSecurityToken": decrypted });
 
-  // Decrypt Key
-  const token = json.tempSecurityEncryptedToken;
-  // TODO: Move the decryption logic into a Route Handler
-  keyData.setOptions({ encryptionScheme: 'pkcs1' });
-  decrypted = keyData.decrypt(token, 'utf8');
+  } catch (error) {
+    next(error);
 
-  res.json({ "TempSecurityToken": decrypted });
+  }
 
 });
 

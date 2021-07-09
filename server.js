@@ -16,14 +16,10 @@
 // TODO: Convert all `commonjs` requires to `ES6` import modules (>=v14.5.1)
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
-const path = require('path');
 const logger = require('./logs/logger');
 
 // Require Routes
-const mocks_router = require('./routes/mocks-router');
-const locations_router = require('./routes/locations-router');
-const securities_router = require('./routes/securities-router');
+const api = require('./api');
 
 require('dotenv').config();
 
@@ -35,6 +31,9 @@ require('dotenv').config();
 /*/
 const app = express();
 const port = process.env.PORT || 5000;
+const environment = process.env.NODE_ENV;
+const version = process.env.API_VERSION;
+
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
@@ -42,22 +41,21 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// Add API version to URI
-app.use(process.env.API_VERSION, './api');
-
 /*/
  *  ┌────────────────────────┐
  *  │ |> CORS Support        │
  *  └────────────────────────┘
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
-const corsOptions = {
-  "origin": "//localhost:5000",
-  "optionsSuccessStatus": 200,
-}
-app.use(cors(corsOptions));
-logger.info('CORS Status: ', corsOptions);
+// const corsOptions = {
+//   "origin": "//localhost:5000",
+//   "optionsSuccessStatus": 200,
+// }
+// app.use(cors(corsOptions));
+// logger.info('CORS Status: ', corsOptions);
+
+// Add API version to URI
+app.use(version, api);
 
 /*/
  *  ┌─────────────────────────────┐
@@ -71,13 +69,10 @@ app.use((req, res, next) => {
 });
 
 // Middleware communicates to Express which files to serve up
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
-  // app.use(express.static(path.join(__dirname, 'client/build')));
-  // app.get('/', function (req, res) {
-  //   // res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  //   return res.send(`CURRENT ENV: ` + process.env.NODE_ENV);
-  // });
-  logger.info('Node Environment: ', process.env.NODE_ENV); 
+if (environment === 'production' || 
+    environment === 'staging' ||
+    environment === 'development') {
+  logger.info(`Node Environment: ${environment}`);
 }
 
 /*/
@@ -85,9 +80,8 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
  *  │ |> Catch Default Route      │
  *  └─────────────────────────────┘
 /*/
-const CURRENT_ENV = process.env.NODE_ENV;
 app.get("/", (req, res) => {
-  res.send(`<h2>GAVEL's Companion API ( ${CURRENT_ENV} )</h2> </br> <i>Powered by Quiet Professionals LLC</i>`);
+  res.send(`<h3>GAVEL's Companion API ( ${environment} )</h3> </br> <i>Powered by Quiet Professionals LLC</i>`);
 });
 
 // TODO: Ad-Hoc `status` endpoint to relocate to the actual routes file.
@@ -118,7 +112,6 @@ function error(status, msg) {
  *  │ |> Start Server & Listen to Port  │
  *  └───────────────────────────────────┘
 /*/
-// console.log('module: ', module);
 app.listen(port, () => {
   logger.info( `Express Server Running on port: ${port} - Take a peek http://localhost:${port}` );
 });

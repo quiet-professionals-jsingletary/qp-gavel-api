@@ -5,10 +5,8 @@
 /*/
 const express = require('express');
 const router = express.Router();
-const securities = require('../api/securities');
+const securities = require('../api/securities-api');
 
-router.use('/securities', securities);
-
-router.get('/token', securities.decryptedToken);
+router.get('/token', securities.securityToken);
 
 module.exports = router;

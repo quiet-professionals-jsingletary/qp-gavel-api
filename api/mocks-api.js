@@ -2,88 +2,84 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const logger = require('../logs/logger');
 const { asyncMiddleware } = require('./middleware/async-middleware');
-const { decryptedToken } = require('./securities');
+const { decryptedToken } = require('./securities-api');
 
 /*/  
  *  ┌───────────────────────────┐
  *  │ |> Mock Api Endpoints     │
  *  └───────────────────────────┘
 /*/
-
+const apiKey = process.env.API_KEY;
 const securityTokenMock = asyncMiddleware(async (req, res, next) => {
+  try {
+    const searchUrl = "https://my-json-server.typicode.com/Quiet-Professionals-LLC/demo/tempSecurityToken";
 
-  const url2 = "https://my-json-server.typicode.com/Quiet-Professionals-LLC/demo/tempSecurityToken";
+    const response = await fetch(searchUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": apiKey
+      }
+      
+    });
 
-  const fetch_res2 = await fetch(url2, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-  });
+    const resJson = await response.json();
+    res.json(resJson);
 
-  const json2 = await fetch_res2.json();
-  res.json(json2);
+  } catch (error) {
+    next(error);
+
+  }
 
 });
 
 const locationsMock = asyncMiddleware(async (req, res, next) => {
-  
-  const url3 = "https://my-json-server.typicode.com/Quiet-Professionals-LLC/demo/locationData";
-  // let headers = {
-  //   "Content-Type": "application/json",
-  //   "Accept": "application/json",
-  //   "Authorization": apiKey,
-  //   "TempSecurityToken": decrypted
-  // };
-  const fetch_res3 = await fetch(url3, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Authorization": "12345",
-      "TempSecurityToken": decryptedToken
-    }
-  });
+  try {
+    const searchUrl = "https://my-json-server.typicode.com/Quiet-Professionals-LLC/demo/locationData";
 
-  const json3 = await fetch_res3.json();
-  res.json(json3);
+    const response = await fetch(searchUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "12345",
+        "TempSecurityToken": decryptedToken
+      }
+
+    });
+
+    const resJson = await response.json();
+    res.json(resJson);
+
+  } catch (error) {
+    next(error);
+  }
+
 });
 
 const gitHubMock = asyncMiddleware(async (req, res, next) => {
-  const url = "https://api.github.com/user";
+  try {
+    const searchUrl = "https://api.github.com/user";
 
-  let headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
-    // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
-    // "Authorization": apiKey
-  };
+    const response = await fetch(searchUrl, {
+      "method": "GET",
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
+        // "Authorization": apiKey
+      }
+    });
 
-  logger.debug("GitHub `try/catch` ")
-  const response = await fetch(url, {
-    "method": "GET",
-    "headers": {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      // "Content-Security-Policy": "default-src *://*.azurewebsites.net",
-      // "Authorization": apiKey
-    }
-  });
 
-  // if (!response.ok) {
-  //   throw new Error(`HTTP error! status: ${response.status}`);
-  // }
+    const jsonRes = await response.json();
+    res.json(jsonRes);
 
-  let jsonRes = await response.json();
+  } catch (error) {
+    next(error);
 
-  res.json(jsonRes);
-  
-  // try {
-
-  // } catch (error) {
-  //   logger.error("GitHub Error: ", error);
-  // }
+  }
 
 });
 
