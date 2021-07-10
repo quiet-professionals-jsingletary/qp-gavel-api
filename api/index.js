@@ -3,9 +3,9 @@
 *  │ |>  ReExport / Funnel Routes   │
 *  └────────────────────────────────┘
 /*/
-const express = require('express');
+const express = require('express'); 
 
-// Mock Endpoints
+// Routers
 const locations = require('../routes/locations-router');
 const securities = require('../routes/securities-router');
 const mocks = require('../routes/mocks-router');
