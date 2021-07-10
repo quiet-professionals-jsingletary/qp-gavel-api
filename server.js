@@ -30,7 +30,7 @@ require('dotenv').config();
  *  └───────────────────────────┘
 /*/
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 const environment = process.env.NODE_ENV;
 const version = process.env.API_VERSION;
 
