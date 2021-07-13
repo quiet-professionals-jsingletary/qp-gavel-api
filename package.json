@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "start": "nodemon server",
-    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
+    "start:prod": "pm2-runtime start ecosystem.config.js --json --web 5000 --env production",
     "start:dev": "pm2-dev start ecosystem.config.js --env development"
   },
   "license": "MIT",
