@@ -30,7 +30,7 @@ require('dotenv').config();
  *  └───────────────────────────┘
 /*/
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 const environment = process.env.NODE_ENV;
 const version = process.env.API_VERSION;
 
@@ -47,12 +47,12 @@ app.use(express.urlencoded({ extended: true }));
  *  └────────────────────────┘
 /*/
 // TODO: Dont forget to whitelist the Azure `dev` Web App URL
-// const corsOptions = {
-//   "origin": "//localhost:5000",
-//   "optionsSuccessStatus": 200,
-// }
-// app.use(cors(corsOptions));
-// logger.info('CORS Status: ', corsOptions);
+const corsOptions = {
+  "origin": "//localhost:5000",
+  "optionsSuccessStatus": 200,
+}
+app.use(cors(corsOptions));
+logger.info('CORS Status: ', corsOptions);
 
 // Add API version to URI
 app.use(version, api);
