@@ -1,3 +1,4 @@
+ //#region [qp]
  /**-------------------------------------------------------------- ->
  *  ┌──────────────────────────┐
  *  │ |> GAVEL - Express API   │
@@ -10,18 +11,21 @@
  *  @author:        '@quiet-professionals-jsingletary'       
  *  @copyright:     'Quiet Professionals LLC'
  * 
-*/   
+*/ 
+//#endregion
 
-// Imports
+//#region [imports]
 // TODO: Convert all `commonjs` requires to `ES6` import modules (>=v14.5.1)
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const logger = require('./logs/logger');
 
 // Require Routes
 const api = require('./api');
 
 require('dotenv').config();
+//#endregion
 
 // TODO: Determine if `react-helmet` would be useful
 
@@ -40,22 +44,57 @@ const options = { index: 'index.html' };
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
-// --> (All middleware will run in order as they appear in code)
+// --> (Middlewares will run in the order in which they are used)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /*/
- *  ┌────────────────────────┐
- *  │ |> CORS Support        │
- *  └────────────────────────┘
+*  ┌────────────────────────────────┐
+*  │ |> CORS - Hardened by Helmet   │
+*  └────────────────────────────────┘
 /*/
-// TODO: Dont forget to whitelist the Azure `dev` Web App URL
+// ~~>  Helmet is comprised of many smaller middlewares
+// ~~>   The following is a list of such middlewares
+// ~~>    Docs: https://www.npmjs.com/package/helmet
+//#region [details]
+// -- Default Options 
+// helmet.contentSecurityPolicy();
+// helmet.dnsPrefetchControl();
+// helmet.expectCt();
+// helmet.frameguard();
+// helmet.hidePoweredBy();
+// helmet.hsts();
+// helmet.ieNoOpen();
+// helmet.noSniff();
+// helmet.permittedCrossDomainPolicies();
+// helmet.referrerPolicy();
+// helmet.xssFilter();
+// -- Non-Default Options 
+// helmet.contentSecurityPolicy(options)
+// helmet.crossOriginEmbedderPolicy()
+// helmet.crossOriginResourcePolicy()
+// helmet.crossOriginOpenerPolicy()
+//#endregion
+
+// Init Helmet
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.disable("x-powered-by");
+
+// const allowedOrigins = ["http//localhost:5000", "https://qp-gavel-mvp.azurewebsites.net/"];
 const corsOptions = {
-  "origin": "//localhost:5000",
-  "optionsSuccessStatus": 200,
+  "origin": "*",
+  "methods": "GET,HEAD,POST",
+  "allowedHeaders": [
+    "Content-Type", 
+    "Authorization", 
+    "Accept"
+  ],
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
 }
 app.use(cors(corsOptions));
-logger.info('CORS Status: ', corsOptions);
+logger.info(`CORS Options: ${corsOptions}`);
 
 // Add API version to URI
 app.use(version, api);

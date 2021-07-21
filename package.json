@@ -10,15 +10,15 @@
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
+    "helmet": "^4.6.0",
     "node-fetch": "^2.6.1",
     "node-rsa": "^1.1.1",
     "pm2": "^5.1.0",
     "proxy-addr": "^2.0.7"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0",
-    "nodemon": "^2.0.6",
     "ncp": "^2.0.0",
+    "nodemon": "^2.0.12",
     "sloc": "^0.2.1"
   },
   "engines": {
@@ -39,7 +39,7 @@
   "scripts": {
     "start": "nodemon server",
     "start:prod": "pm2-runtime start ecosystem.config.js --node-args='--max_old_space_size=4096' --env production",
-    "start:dev": "pm2-dev start ecosystem.config.js --node-args='--debug=5030 --max_old_space_size=4096' --env development"
+    "start:dev": "pm2-dev start ecosystem.config.js --node-args=' --max_old_space_size=4096' --env development"
   },
   "license": "MIT",
   "bugs": {
