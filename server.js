@@ -27,6 +27,8 @@ const api = require('./api');
 require('dotenv').config();
 //#endregion
 
+// TODO: Determine if `react-helmet` would be useful
+
 /*/  
  *  ┌───────────────────────────┐
  *  │ |> Init Express Server    │
@@ -37,6 +39,8 @@ const port = process.env.PORT || 5000;
 const environment = process.env.NODE_ENV;
 const version = process.env.API_VERSION;
 
+// Define `index.html` as application entrypoint
+const options = { index: 'index.html' };
 
 // Middleware for parsing / renering data
 // NOTE: Parsing middleware must run prior to `require()` routes 
@@ -118,9 +122,6 @@ if (environment === 'production' ||
  *  │ |> Catch Default Route      │
  *  └─────────────────────────────┘
 /*/
-app.get("/", (req, res) => {
-  res.send(`<h3>GAVEL's Companion API ( ${environment} )</h3> </br> <i>Powered by Quiet Professionals LLC</i>`);
-});
 
 // TODO: Ad-Hoc `status` endpoint to relocate to the actual routes file.
 app.get("/status", (req, res) => {
@@ -129,6 +130,11 @@ app.get("/status", (req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send(`<h3>GAVEL's Companion API ( ${environment} )</h3> </br> <i>Powered by Quiet Professionals LLC</i>`);
+});
+
+app.use('/', express.static('/home/site/wwwroot', options));
 /*/
  *  ┌────────────────────────┐
  *  │ |> Error Handling      │

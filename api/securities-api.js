@@ -64,10 +64,9 @@ const securityToken = asyncMiddleware(async (req, res, next) => {
     // }
 
     let jsonRes = await response.json();
-
     // Decrypt Key
     const token = jsonRes.tempSecurityEncryptedToken;
-    // TODO: Move the decryption logic into a Route Handler
+    // TODO: Move the decryption logic into a Route Handler   
     keyData.setOptions({ encryptionScheme: 'pkcs1' });
     decrypted = keyData.decrypt(token, 'utf8');
 

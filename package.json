@@ -13,7 +13,8 @@
     "helmet": "^4.6.0",
     "node-fetch": "^2.6.1",
     "node-rsa": "^1.1.1",
-    "pm2": "^5.1.0"
+    "pm2": "^5.1.0",
+    "proxy-addr": "^2.0.7"
   },
   "devDependencies": {
     "ncp": "^2.0.0",
@@ -37,8 +38,8 @@
   ],
   "scripts": {
     "start": "nodemon server",
-    "start:prod": "pm2-runtime start ecosystem.config.js --node-args='--max_old_space_size=4096' --env production",
-    "start:dev": "pm2-dev start ecosystem.config.js --node-args=' --max_old_space_size=4096' --env development"
+    "start:prod": "pm2-runtime ecosystem.config.js --env=production",
+    "start:dev": "pm2-dev ecosystem.config.js --env=development"
   },
   "license": "MIT",
   "bugs": {
