@@ -134,7 +134,7 @@ app.get("/", (req, res) => {
   res.send(`<h3>GAVEL's Companion API ( ${environment} )</h3> </br> <i>Powered by Quiet Professionals LLC</i>`);
 });
 
-server.use('/', express.static('/home/site/wwwroot', options));
+app.use('/', express.static('/home/site/wwwroot', options));
 /*/
  *  ┌────────────────────────┐
  *  │ |> Error Handling      │

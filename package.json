@@ -38,8 +38,8 @@
   ],
   "scripts": {
     "start": "nodemon server",
-    "start:prod": "pm2-runtime start ecosystem.config.js --node-args='--max_old_space_size=4096' --env production",
-    "start:dev": "pm2-dev start ecosystem.config.js --node-args=' --max_old_space_size=4096' --env development"
+    "start:prod": "pm2-runtime ecosystem.config.js --env=production",
+    "start:dev": "pm2-dev ecosystem.config.js --env=development"
   },
   "license": "MIT",
   "bugs": {
