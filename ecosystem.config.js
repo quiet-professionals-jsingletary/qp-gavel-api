@@ -1,6 +1,6 @@
 module.exports = {
   name: "gavel-app",
-  script: "server",
+  script: "serve",
   instances: 4,
   exec_mode: "cluster",
   watch: true,
