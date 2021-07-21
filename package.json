@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "author": "James Singletary IV",
   "description": "ExpressJS RESTful API Server built on top of RESTful API serving up data for GAVEL",
-  "main": "server.js",
-  "type": "commonjs",
+  "main": "ecosystem.config.js",
   "dependencies": {
     "axios": "^0.21.1",
     "cors": "^2.8.5",
