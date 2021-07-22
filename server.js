@@ -36,6 +36,7 @@ require('dotenv').config();
 /*/
 const app = express();
 const port = process.env.PORT || 5000;
+const host = process.env.HOST || "localhost"
 const environment = process.env.NODE_ENV;
 const version = process.env.API_VERSION;
 
@@ -77,8 +78,8 @@ app.use(express.urlencoded({ extended: true }));
 //#endregion
 
 // Init Helmet
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(helmet()); // Instantiate `helmet` will offer all Default middlewares 
+// app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.disable("x-powered-by");
 
 // const allowedOrigins = ["http//localhost:5000", "https://qp-gavel-mvp.azurewebsites.net/"];
@@ -90,11 +91,11 @@ const corsOptions = {
     "Authorization", 
     "Accept"
   ],
-  "preflightContinue": false,
+  "preflightContinue": true,
   "optionsSuccessStatus": 204
 }
 app.use(cors(corsOptions));
-logger.info(`CORS Options: ${corsOptions}`);
+logger.info("CORS Options:", corsOptions);
 
 // Add API version to URI
 app.use(version, api);
@@ -112,9 +113,10 @@ app.use((req, res, next) => {
 
 // Middleware communicates to Express which files to serve up
 if (environment === 'production' || 
-    environment === 'staging' ||
-    environment === 'development') {
-  logger.info(`Node Environment: ${environment}`);
+      environment === 'staging' ||
+        environment === 'development') {
+          
+          logger.info(`Node Environment: ${environment}`);
 }
 
 /*/
@@ -156,6 +158,7 @@ function error(status, msg) {
  *  │ |> Start Server & Listen to Port  │
  *  └───────────────────────────────────┘
 /*/
-app.listen(port, () => {
-  logger.info( `Express Server Running on port: ${port} - Take a peek http://localhost:${port}` );
+app.listen(port, host, () => {
+  logger.info( `Express Server Running on port: ${port} - < /br> 
+                Take a peek http://localhost:${port}` );
 });
