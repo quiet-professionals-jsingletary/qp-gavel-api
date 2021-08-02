@@ -159,7 +159,7 @@ function error(status, msg) {
  *  └───────────────────────────────────┘
 /*/
 // NOTE: Hardcoding http port per Azure Docs
-app.listen(8080, () => {
+app.listen(port, () => {
   logger.info( `Express Server Running on port: ${port} - < /br> 
                 Take a peek http://localhost:${port}` );
 });
