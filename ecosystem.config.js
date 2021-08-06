@@ -5,7 +5,7 @@ module.exports = {
   exec_mode: "cluster",
   watch: true,
   // ignore_watch: ["node_modules"],
-  args: "--no-daemon --spa",
+  args: "--no-daemon",
   interpreter: "node",
   interpreter_args: "--max-old-space-size=4096",
   env_production: {
